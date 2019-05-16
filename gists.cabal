@@ -1,0 +1,45 @@
+name:                gists
+version:             0.1
+synopsis:            The greatest hits of https://gist.github.com/RyanGlScott
+description:         The greatest hits of <https://gist.github.com/RyanGlScott>.
+homepage:            https://github.com/RyanGlScott/gists
+bug-reports:         https://github.com/RyanGlScott/gists/issues
+license:             BSD3
+license-file:        LICENSE
+author:              Ryan Scott
+maintainer:          Ryan Scott <ryan.gl.scott@gmail.com>
+stability:           Experimental
+copyright:           (C) 2019 Ryan Scott
+category:            Testing
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+tested-with:         GHC == 8.2.2
+                   , GHC == 8.4.4
+                   , GHC == 8.6.5
+                   , GHC == 8.8.1
+
+library
+  exposed-modules:     CoercibleGenerics
+                       CoercibleGenericsAbstract
+                       Decidable
+                       ElimNat
+                       ExcludingEq
+                       GADTSingletons
+                       GenericForAllGADTs
+                       GPMP
+                       HListShorthand
+                       IdleThoughtsOnGADTsAsNewtypes
+                       LousyDependentComposition
+                       S
+                       SGenericDecide
+                       SGenericSingKind
+                       SGenericSingKindAlt
+                       SingIForTyCons
+                       SubstRep1
+                       TypeLevelGlambda
+                       VecShorthand
+  build-depends:       base >= 4.10 && < 5
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:         -Wall -Wno-unticked-promoted-constructors

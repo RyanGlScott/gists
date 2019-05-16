@@ -1,0 +1,1 @@
+# REGENDATA ["--output=.travis.yml","--config=cabal.haskell-ci","cabal.project"]
