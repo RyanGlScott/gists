@@ -1,4 +1,5 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE ImpredicativeTypes #-}
 {-# LANGUAGE LiberalTypeSynonyms #-}
@@ -17,8 +18,12 @@ type family ElimNat (p :: Nat ~> Type)
                     (pZ :: p @@ Z)
                     (pS :: KindOf (PS p)) -- (pS :: forall (n :: Nat) -> (p @@ n ~> p @@ S n))
                  :: p @@ s where
-  ElimNat _ Z     pZ _  = pZ
-  ElimNat p (S n) pZ pS = pS n @@ ElimNat p n pZ pS
+  { ElimNat _ Z     pZ _  = pZ ;
+#if __GLASGOW_HASKELL__ >= 808
+    forall (p :: Nat ~> Type) (n :: Nat) (pZ :: p @@ Z) (pS :: KindOf (PS p)).
+#endif
+    ElimNat p (S n) pZ pS = pS n @@ ElimNat p n pZ pS
+  }
 data PS (p :: Nat ~> Type) (n :: Nat) :: p @@ n ~> p @@ S n
 
 -- | Multiply a 'Nat' by two.
