@@ -23,6 +23,7 @@ library
   exposed-modules:     CoercibleGenerics
                        CoercibleGenericsAbstract
                        Decidable
+                       DependentComposition
                        ElimNat
                        ExcludingEq
                        GADTSingletons
