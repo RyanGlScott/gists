@@ -20,7 +20,7 @@ import Data.Kind
 import Data.Type.Equality
 import Unsafe.Coerce
 
-data family Sing (a :: k)
+type family Sing :: k -> Type
 
 data SomeSing (k :: Type) where
   SomeSing :: Sing (a :: k) -> SomeSing k
@@ -77,9 +77,10 @@ type instance SingKindC (a :: Type) = SingKind a
 -- Bool
 -----
 
-data instance Sing (b :: Bool) where
-  SFalse :: Sing False
-  STrue  :: Sing True
+data SBool :: Bool -> Type where
+  SFalse :: SBool False
+  STrue  :: SBool True
+type instance Sing = SBool
 
 type instance Demote Bool = Bool
 type instance Promote Bool = Bool
@@ -113,10 +114,11 @@ instance SingI False where
 -- Ordering
 -----
 
-data instance Sing (o :: Ordering) where
-  SLT :: Sing LT
-  SEQ :: Sing EQ
-  SGT :: Sing GT
+data SOrdering :: Ordering -> Type where
+  SLT :: SOrdering LT
+  SEQ :: SOrdering EQ
+  SGT :: SOrdering GT
+type instance Sing = SOrdering
 
 type instance Demote Ordering = Ordering
 type instance Promote Ordering = Ordering
@@ -154,9 +156,10 @@ instance SingI GT where
 -- List
 -----
 
-data instance Sing (z :: [a]) where
-  SNil  :: Sing '[]
-  SCons :: Sing x -> Sing xs -> Sing (x:xs)
+data SList :: forall a. [a] -> Type where
+  SNil  :: SList '[]
+  SCons :: Sing x -> Sing xs -> SList (x:xs)
+type instance Sing = SList
 
 type instance Demote  [a] = [DemoteX  a]
 type instance Promote [a] = [PromoteX a]
@@ -191,8 +194,9 @@ instance (SingI x, SingI xs) => SingI (x:xs) where
 
 data Foo (a :: Type) where MkFoo :: Foo Bool
 
-data instance Sing (z :: Foo a) where
-  SMkFoo :: Sing MkFoo
+data SFoo :: forall a. Foo a -> Type where
+  SMkFoo :: SFoo MkFoo
+type instance Sing = SFoo
 
 type instance Demote (Foo a) = Foo (DemoteX a)
 type instance Promote (Foo a) = Foo (PromoteX a)
@@ -221,9 +225,10 @@ data Quux (a :: Type) where
   MkQuux1 :: Quux Bool
   MkQuux2 :: Quux Ordering
 
-data instance Sing (z :: Quux a)
+data SQuux (z :: Quux a)
   = (z ~~ MkQuux1) => SMkQuux1
   | (z ~~ MkQuux2) => SMkQuux2
+type instance Sing = SQuux
 
 type instance Demote (Quux a) = Quux (DemoteX a)
 type instance Promote (Quux a) = Quux (PromoteX a)
@@ -256,9 +261,10 @@ instance SingI MkQuux2 where
 
 data N = Z | S N
 
-data instance Sing (n :: N) where
-  SZ :: Sing Z
-  SS :: Sing n -> Sing (S n)
+data SN :: N -> Type where
+  SZ :: SN Z
+  SS :: Sing n -> SN (S n)
+type instance Sing = SN
 
 type instance Demote N = N
 type instance Promote N = N
@@ -293,9 +299,10 @@ data Fin :: N -> Type where
   FZ :: Fin (S n)
   FS :: Fin n -> Fin (S n)
 
-data instance Sing (z :: Fin n) where
-  SFZ :: Sing FZ
-  SFS :: Sing fn -> Sing (FS fn)
+data SFin :: forall n. Fin n -> Type where
+  SFZ :: SFin FZ
+  SFS :: Sing fn -> SFin (FS fn)
+type instance Sing = SFin
 
 type instance Demote (Fin n) = Fin (DemoteX n)
 type instance Promote (Fin n) = Fin (PromoteX n)
@@ -330,9 +337,10 @@ data Vec (n :: N) (a :: Type) where
   VNil  :: Vec Z a
   VCons :: a -> Vec n a -> Vec (S n) a
 
-data instance Sing (z :: Vec n a) where
-  SVNil  :: Sing VNil
-  SVCons :: Sing x -> Sing xs -> Sing (VCons x xs)
+data SVec :: forall n a. Vec n a -> Type where
+  SVNil  :: SVec VNil
+  SVCons :: Sing x -> Sing xs -> SVec (VCons x xs)
+type instance Sing = SVec
 
 type instance Demote (Vec n a) = Vec (DemoteX n) (DemoteX a)
 type instance Promote (Vec n a) = Vec (PromoteX n) (PromoteX a)
@@ -371,8 +379,9 @@ instance (SingI x, SingI xs) => SingI (VCons x xs) where
 
 data Prox (a :: k) = P
 
-data instance Sing (z :: Prox (a :: k)) where
-  SP :: Sing P
+data SProx :: forall k (a :: k). Prox a -> Type where
+  SP :: SProx P
+type instance Sing = SProx
 
 type instance Demote (Prox (a :: k)) = Prox (DemoteX a)
 type instance Promote (Prox (a :: k)) = Prox (PromoteX a)
@@ -394,8 +403,9 @@ instance SingI P where
 -- (:~~:)
 -----
 
-data instance Sing (z :: (a :: j) :~~: (b :: k)) where
-  SHRefl :: Sing HRefl
+data (%:~~:) :: forall j k (a :: j) (b :: k). a :~~: b -> Type where
+  SHRefl :: (%:~~:) HRefl
+type instance Sing = (%:~~:)
 
 type instance Demote  (a :~~: b) = DemoteX  a :~~: DemoteX  b
 type instance Promote (a :~~: b) = PromoteX a :~~: PromoteX b
@@ -422,9 +432,10 @@ data HList :: [Type] -> Type where
   HNil  :: HList '[]
   HCons :: x -> HList xs -> HList (x:xs)
 
-data instance Sing (z :: HList xs) where
-  SHNil  :: Sing HNil
-  SHCons :: Sing x -> Sing xs -> Sing (HCons x xs)
+data SHList :: forall xs. HList xs -> Type where
+  SHNil  :: SHList HNil
+  SHCons :: Sing x -> Sing xs -> SHList (HCons x xs)
+type instance Sing = SHList
 
 type instance Demote  (HList xs) = HList (DemoteX xs)
 type instance Promote (HList xs) = HList (PromoteX xs)
@@ -483,8 +494,9 @@ type instance Apply (TyCon2 f) x = TyCon1 (f x)
 type instance Demote  (a ~> b) = DemoteX  a -> DemoteX  b
 type instance Promote (a -> b) = PromoteX a ~> PromoteX b
 
-newtype instance Sing (f :: k1 ~> k2) =
+newtype SLambda (f :: k1 ~> k2) =
   SLambda { applySing :: forall t. Sing t -> Sing (f @@ t) }
+type instance Sing = SLambda
 
 instance (SingKindC k1, SingKindC k2) => SingKind (k1 ~> k2) where
   fromSing sFun x = withSomeSing x $ fromSing . applySing sFun
@@ -521,8 +533,9 @@ type PArr = Arr' (~>@#@$)
 type instance Demote  (PArr a b) = Arr  (DemoteX  a) (DemoteX  b)
 type instance Promote (Arr  a b) = PArr (PromoteX a) (PromoteX b)
 
-data instance Sing (z :: PArr a b) where
-  SMkArr :: Sing x -> Sing (MkArr x :: PArr a b)
+data SArr :: forall a b. PArr a b -> Type where
+  SMkArr :: Sing x -> SArr (MkArr x)
+type instance Sing = SArr
 
 instance (SingKindCX a, SingKindCX b) => SingKind (PArr a b) where
   fromSing (SMkArr x) = MkArr (fromSing x)
