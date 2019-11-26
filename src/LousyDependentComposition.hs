@@ -9,6 +9,7 @@
 {-# LANGUAGE TypeFamilyDependencies #-}
 {-# LANGUAGE TypeInType #-}
 {-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE UndecidableInstances #-}
 -- | Horrific attempts at defining dependent composition functions in GHC.
 module LousyDependentComposition where
 
