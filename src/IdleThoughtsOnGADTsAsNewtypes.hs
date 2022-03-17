@@ -9,6 +9,7 @@
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeInType #-}
+{-# LANGUAGE TypeOperators #-}
 #endif
 -- | How some GADTs can (almost) be represented as newtypes
 module IdleThoughtsOnGADTsAsNewtypes where
