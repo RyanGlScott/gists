@@ -1,6 +1,3 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DefaultSignatures #-}
@@ -15,11 +12,9 @@
 {-# LANGUAGE TypeFamilyDependencies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
-#endif
 -- | A generic implementation of 'SingKind'.
 module SGenericSingKind where
 
-#if __GLASGOW_HASKELL__ >= 806
 import Data.Kind
 import Data.Type.Equality
 
@@ -213,4 +208,3 @@ instance SingKind Bool where
 
 instance SingKind a => SingKind [a] where
   type Demote [a] = [Demote a]
-#endif

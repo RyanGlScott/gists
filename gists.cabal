@@ -14,9 +14,7 @@ category:            Testing
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
-tested-with:         GHC == 8.2.2
-                   , GHC == 8.4.4
-                   , GHC == 8.6.5
+tested-with:         GHC == 8.6.5
                    , GHC == 8.8.4
                    , GHC == 8.10.7
                    , GHC == 9.0.2
@@ -44,7 +42,7 @@ library
                        TypeLevelGlambda
                        VecShorthand
                        WorkingAroundT12564
-  build-depends:       base >= 4.10 && < 5
+  build-depends:       base >= 4.12 && < 5
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:         -Wall -Wno-unticked-promoted-constructors

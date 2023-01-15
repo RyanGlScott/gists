@@ -1,6 +1,3 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE EmptyCase #-}
@@ -10,11 +7,9 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
-#endif
 -- | How to derive a 'Generic' instance using nothing but 'Generic1'.
 module SubstRep1 where
 
-#if __GLASGOW_HASKELL__ >= 806
 import Data.Kind
 import GHC.Generics
 
@@ -104,4 +99,3 @@ instance (Functor f, SubstRep1Par' g) => SubstRep1Par' (f :.: g) where
   type SubstRep1Par (f :.: g) p = f (SubstRep1Par g p)
   substRep1Par (Comp1 x) = fmap substRep1Par x
   unsubstRep1Par x = Comp1 (fmap unsubstRep1Par x)
-#endif

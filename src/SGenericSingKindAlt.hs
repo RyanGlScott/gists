@@ -1,6 +1,3 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
@@ -17,11 +14,9 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
-#endif
 -- | A generic implementation of 'SingKind' (alternative presentation).
 module SGenericSingKindAlt where
 
-#if __GLASGOW_HASKELL__ >= 806
 import Data.Kind
 import Data.Type.Equality
 
@@ -295,4 +290,3 @@ instance SingKind Bool
 type instance Demote  [a] = [Demote a]
 type instance Promote [a] = [Promote a]
 instance SingCX a => SingKind [a]
-#endif

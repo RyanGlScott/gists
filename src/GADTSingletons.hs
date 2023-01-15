@@ -1,14 +1,14 @@
 {-# LANGUAGE ConstraintKinds #-}
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
-{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
 -- | Singletons for GADTs.
@@ -369,10 +369,6 @@ instance SingI VNil where
 instance (SingI x, SingI xs) => SingI (VCons x xs) where
   sing = SVCons sing sing
 
-# if __GLASGOW_HASKELL__ < 804 || __GLASGOW_HASKELL__ >= 806
--- Sadly, the examples below don't work in GHC 8.4 due to
--- https://gitlab.haskell.org/ghc/ghc/issues/14441
-
 -----
 -- PolyKinds
 -----
@@ -422,7 +418,6 @@ type instance SingKindC HRefl = ()
 
 instance SingI HRefl where
   sing = SHRefl
-# endif
 
 -----
 -- HList

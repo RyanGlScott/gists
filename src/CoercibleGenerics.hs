@@ -1,6 +1,3 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE QuantifiedConstraints #-}
@@ -9,7 +6,6 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
-#endif
 -- | Fleshing out a new design for Generic1 that doesn't use Functor contexts
 -- for derived instances, but rather Coercible. Why would we want this?
 -- Consider this derived Generic1 instance:
@@ -40,7 +36,6 @@
 -- than fmap.
 module CoercibleGenerics where
 
-#if __GLASGOW_HASKELL__ >= 806
 import Data.Coerce
 import Data.Kind
 import GHC.Generics
@@ -81,4 +76,3 @@ newtype NotAFunctor a = NotAFunctor (a -> Int)
 -- Most importantly, it works for things that aren't Functor instances.
 roundtripNotAFunctor :: T NotAFunctor a -> T NotAFunctor a
 roundtripNotAFunctor = roundtrip
-#endif

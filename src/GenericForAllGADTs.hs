@@ -1,6 +1,3 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveFunctor #-}
@@ -12,11 +9,9 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
-#endif
 -- | An old attempt at defining 'Generic' instances for GADTs.
 module GenericForAllGADTs where
 
-#if __GLASGOW_HASKELL__ >= 806
 import Data.Kind
 import GHC.Generics
 
@@ -80,4 +75,3 @@ instance Generic1 Foo where
 
 instance Functor Foo where
   fmap = genericFmap
-#endif

@@ -1,6 +1,3 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
@@ -18,11 +15,9 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
-#endif
 -- | A way to generically derive instances and special-case behavior for certain types.
 module ExcludingEq where
 
-#if __GLASGOW_HASKELL__ >= 806
 import Data.Kind
 import GHC.Generics
 
@@ -115,4 +110,3 @@ main :: IO ()
 main = do
   let mbt = MyBigType 1 2.0 (const 'a') '3'
   print $ mbt == mbt
-#endif

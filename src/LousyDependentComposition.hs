@@ -1,13 +1,13 @@
 {-# LANGUAGE AllowAmbiguousTypes #-}
-{-# LANGUAGE CPP #-}
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
-{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
 -- | Horrific attempts at defining dependent composition functions in GHC.
@@ -79,7 +79,6 @@ dcomp1 :: forall (a :: Type)
        -> c @@ ('Proxy :: Proxy x) @@ (g @@ ('Proxy :: Proxy x))
 dcomp1 f _ _ = f @x @(g @@ ('Proxy :: Proxy x))
 
-#if __GLASGOW_HASKELL__ >= 805
 dcomp2 :: forall (a :: Type)
                  (b :: a ~> Type)
                  (c :: forall (x :: a). Proxy x ~> b @@ x ~> Type)
@@ -92,4 +91,3 @@ dcomp2 :: forall (a :: Type)
        -> Sing x
        -> Demote (c @@ ('Proxy :: Proxy x) @@ (g @@ ('Proxy :: Proxy x)))
 dcomp2 sf _ _ = fromSing $ sf @x @(g @@ ('Proxy :: Proxy x))
-#endif

@@ -1,24 +1,18 @@
-{-# LANGUAGE CPP #-}
-
--- This does not typecheck on GHC 8.4 due to
--- https://gitlab.haskell.org/ghc/ghc/issues/14720
-#if __GLASGOW_HASKELL__ < 804 || __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE AllowAmbiguousTypes #-}
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DefaultSignatures #-}
 {-# LANGUAGE EmptyCase #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilyDependencies #-}
-{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE TypeOperators #-}
-#endif
 module SGenericDecide where
 
-#if __GLASGOW_HASKELL__ < 804 || __GLASGOW_HASKELL__ >= 806
 import Data.Kind
 import Data.Type.Equality
 import Data.Void
@@ -202,4 +196,3 @@ instance (SDecide a, SDecide b) => SDecide (Sum a b) where
 instance SDecide ()
 instance SDecide Bool
 instance SDecide a => SDecide [a]
-#endif

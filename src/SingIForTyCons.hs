@@ -1,6 +1,3 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 806
 {-# LANGUAGE ConstraintKinds #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
@@ -17,11 +14,9 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE UndecidableInstances #-}
-#endif
 -- | Generic 'SingI' instances for 'TyCon's, using @QuantifiedConstraints@.
 module SingIForTyCons where
 
-#if __GLASGOW_HASKELL__ >= 806
 import Data.Kind
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -84,4 +79,3 @@ instance (forall a b. (SingI a, SingI b) => SingI (f a b)) => SingI (TyCon2 f) w
 
 test :: Sing '( '(), '() )
 test = sing @_ @(TyCon2 '(,)) `applySing` STuple0 `applySing` STuple0
-#endif

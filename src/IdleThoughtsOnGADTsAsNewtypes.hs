@@ -1,20 +1,16 @@
-{-# LANGUAGE CPP #-}
-
-#if __GLASGOW_HASKELL__ >= 804
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE ImpredicativeTypes #-}
 {-# LANGUAGE KindSignatures #-}
+{-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE TypeInType #-}
 {-# LANGUAGE TypeOperators #-}
-#endif
 -- | How some GADTs can (almost) be represented as newtypes
 module IdleThoughtsOnGADTsAsNewtypes where
 
-#if __GLASGOW_HASKELL__ >= 804
 import Data.Coerce
 import Data.Functor.Identity
 import Data.Kind
@@ -157,4 +153,3 @@ toSI3 :: forall a (x :: a).
 toSI3 sx = coerce @(forall (x' :: a). ('Identity x ~ 'Identity x') => Sing x')
                   @(Sing ('Identity x))
                   sx
-#endif
